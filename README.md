@@ -1,60 +1,135 @@
 # 🧟 Project Zomboid Dedicated Server Scripts (Ubuntu)
 
-Ubuntu 24.04 LTS 환경에서 고성능, 저관리 프로젝트 좀보이드(Build 41) 전용 서버를 위한 자동 설치 및 관리 스크립트입니다.
+안녕하세요! 👋
+이 프로젝트는 **Ubuntu 24.04 LTS** 환경에서 **프로젝트 좀보이드(Project Zomboid)** 전용 서버를 누구나 쉽고 안전하게 운영할 수 있도록 돕는 **자동화 스크립트 모음**입니다.
 
-## ✨ 주요 기능 (Features)
+복잡한 리눅스 명령어는 잊으세요. 이 스크립트들이 설치부터 백업, 업데이트, 모드 설정까지 알아서 처리해줍니다.
 
-- **3중 데이터 보호 (Triple-Layer Data Protection)**:
-  - **즉시 저장 (Instant Save)**: 플레이어 피격 시 즉시 저장하여 데이터 손실 방지.
-  - **자동 저장 (Auto-Save)**: 30분 간격으로 월드 상태 자동 저장.
-  - **시간별 백업 (Hourly Backup)**: 전체 서버 데이터를 압축하여 백업 (7일간 보관).
-- **스마트 업데이트 (Smart Update)**: 매일 새벽 3시, 접속자가 없을 때만 자동으로 서버 업데이트 진행.
-- **간편한 관리 (Easy Management)**: 공지사항 전송, 로그 확인, 수동 저장을 위한 간편한 스크립트 제공.
-- **모드 관리 (Mod Management)**: CSV 기반의 모드 목록(`mods_list.txt`) 관리 및 설정 자동 생성.
+---
 
-## 🚀 빠른 시작 (Quick Start)
+## ✨ 왜 이 스크립트를 써야 하나요? (Features)
 
-### 1. 필수 조건
-- Ubuntu 24.04 LTS (권장)
-- Root 권한 (또는 sudo 사용자)
+### 🛡️ 철통 같은 데이터 보호 (Triple-Layer Protection)
+서버 운영의 가장 큰 적은 '데이터 유실'입니다. 우리는 3중 안전장치를 마련했습니다.
+1.  **즉시 저장 (Instant Save)**: 플레이어가 다치면 그 즉시 저장합니다. (강제 종료 악용 방지)
+2.  **자동 저장 (Auto-Save)**: **30분마다** 월드 상태를 저장합니다.
+3.  **시간별 백업 (Hourly Backup)**: **매시간 15분**마다 서버 전체를 압축해서 따로 보관합니다. (최근 7일치 보관)
 
-### 2. 설정 (Setup)
-1.  저장소 복제:
+### 🤖 똑똑한 자동화 (Smart Automation)
+- **스마트 업데이트**: 매일 **새벽 3시**, 서버에 **접속자가 0명일 때만** 업데이트를 진행합니다. 한창 게임 중인데 서버가 꺼질 걱정이 없습니다.
+- **자동 스케줄링**: `setup_cron.sh`가 백업과 업데이트 일정을 알아서 등록해줍니다.
+
+### ⚡ 간편한 관리 (Easy Management)
+- **모드 관리**: `mods_list.txt` 파일에 모드 ID만 적으면, 설정 파일(`ini`)을 자동으로 만들어줍니다.
+- **운영 도구**: 공지사항 보내기, 로그 확인하기, 수동 저장하기 등 자주 쓰는 기능을 명령어 하나로 끝냅니다.
+
+---
+
+## 🚀 5분 만에 시작하기 (Quick Start)
+
+### 1. 준비물
+- **Ubuntu 24.04 LTS** (권장)
+- **Root 권한** (또는 sudo 사용 가능 계정)
+
+### 2. 설치 (Installation)
+
+1.  **프로젝트 다운로드**:
     ```bash
     git clone https://github.com/redlady-GH/PZDServer.git z
     cd z
     ```
-2.  관리자 비밀번호 설정:
+
+2.  **비밀번호 설정**:
+    관리자 비밀번호(`admin` 계정)를 설정합니다.
     ```bash
     cp scripts/pz_admin_pw.txt.example scripts/pz_admin_pw.txt
     nano scripts/pz_admin_pw.txt
-    # 원하는 관리자 비밀번호 입력
+    # 파일 안에 원하는 비밀번호를 입력하고 저장(Ctrl+O, Enter) 후 종료(Ctrl+X)하세요.
     ```
-3.  서버 상세 설정:
-    `scripts/setup_mods.sh` 파일을 수정하여 서버 이름, 월드 이름, 비밀번호를 설정하세요.
+
+3.  **서버 정보 설정**:
+    서버 이름과 비밀번호를 설정합니다.
     ```bash
     nano scripts/setup_mods.sh
+    # SERVER_NAME, WORLD_NAME, SERVER_PASSWORD 변수를 수정하세요.
     ```
-4.  모드 추가 (선택 사항):
-    `scripts/mods_list.txt` 파일을 수정하여 모드를 추가하세요 (이름, 워크숍ID, 모드ID).
 
-### 3. 설치 및 실행 (Install & Run)
-`rebuild.sh` 스크립트를 실행하여 의존성 패키지, SteamCMD, 프로젝트 좀보이드를 설치하고 서버를 시작합니다.
+4.  **모드 추가 (선택)**:
+    사용할 모드가 있다면 목록에 추가하세요.
+    ```bash
+    nano scripts/mods_list.txt
+    # 형식: 모드이름, 워크숍ID, 모드ID
+    ```
+
+5.  **한방 설치 실행**:
+    모든 설치 과정을 자동으로 진행합니다. (약 5~10분 소요)
+    ```bash
+    sudo bash scripts/rebuild.sh --confirm
+    ```
+
+---
+
+## 📖 스크립트 상세 가이드 (Script Guide)
+
+`scripts/` 폴더 안에 있는 각 파일의 역할을 자세히 설명해 드립니다.
+
+### 🛠️ 핵심 관리 도구
+| 스크립트 | 설명 |
+| :--- | :--- |
+| **`rebuild.sh`** | **(가장 중요)** 서버 설치, 설정, 모드 적용, 스케줄 등록까지 모든 과정을 총괄하는 대장 스크립트입니다. 설정이 꼬였거나 모드를 추가했을 때 이 파일만 실행하면 됩니다. |
+| **`setup_cron.sh`** | **(자동화의 핵심)** 백업과 업데이트 일정을 리눅스 스케줄러(Cron)에 등록합니다. `rebuild.sh` 실행 시 자동으로 호출되지만, 스케줄만 다시 잡고 싶을 때 수동으로 실행할 수도 있습니다. |
+| **`setup_mods.sh`** | `mods_list.txt`를 읽어서 복잡한 서버 설정 파일(`.ini`)을 자동으로 생성해줍니다. 오타로 인한 설정 오류를 방지합니다. |
+
+### ⚙️ 백그라운드 작업 (자동 실행)
+| 스크립트 | 설명 | 실행 주기 |
+| :--- | :--- | :--- |
+| **`auto_backup.sh`** | 서버 데이터를 압축해서 `backups/auto/` 폴더에 저장합니다. 7일이 지난 파일은 알아서 지워 용량을 관리합니다. | 매시간 15분 |
+| **`check_updates.sh`** | 좀보이드 업데이트가 있는지 확인합니다. 접속자가 없으면 업데이트 후 재시작하고, 있으면 다음 날로 미룹니다. | 매일 03:00 |
+
+### 🎮 운영자용 도구 (수동 실행)
+| 명령어 | 설명 |
+| :--- | :--- |
+| `bash scripts/announce.sh "할말"` | 게임 내 모든 플레이어에게 화면 중앙 메시지(공지)를 띄웁니다. |
+| `bash scripts/logs.sh` | 현재 서버의 로그를 실시간으로 보여줍니다. 문제가 생겼을 때 확인하세요. |
+| `bash scripts/save.sh` | 서버를 끄기 전이나 점검 전에 수동으로 저장하고 싶을 때 사용합니다. |
+
+---
+
+## ❓ 자주 묻는 질문 (FAQ)
+
+### Q. 자동 백업이 잘 되고 있는지 어떻게 아나요?
+터미널에서 `crontab -l`을 입력해보세요. 등록된 스케줄이 보입니다.
+또한, `/var/log/pz_backup.log` 파일에 백업 기록이 남으니 확인해볼 수 있습니다.
+
+### Q. 모드를 추가하고 싶어요.
+1. `scripts/mods_list.txt`에 모드 정보를 추가합니다.
+2. `sudo bash scripts/rebuild.sh --confirm` 명령어를 실행합니다.
+3. 끝! 자동으로 다운로드 받고 설정까지 적용됩니다.
+
+### Q. 서버가 켜져 있는지 확인하려면?
 ```bash
-sudo bash scripts/rebuild.sh --confirm
+sudo systemctl status pzserver
+```
+또는 화면에 직접 들어가 볼 수도 있습니다:
+```bash
+sudo screen -r pzserver
+# 나올 때는 Ctrl+A를 누른 뒤 D를 누르세요. (세션 유지)
 ```
 
-## 🛠️ 운영 가이드 (Operations)
+---
 
-- **상태 확인**: `sudo systemctl status pzserver`
-- **로그 확인**: `bash scripts/logs.sh`
-- **수동 저장**: `bash scripts/save.sh`
-- **공지사항 전송**: `bash scripts/announce.sh "안녕하세요"`
-- **콘솔 접속**: `sudo screen -r pzserver` (나갈 때는 `Ctrl+A`, `D`)
+## 📂 파일 구조 (File Structure)
+```
+z/
+├── scripts/               # 모든 마법이 일어나는 곳 (스크립트 폴더)
+│   ├── rebuild.sh         # 설치/재설정 실행
+│   ├── setup_cron.sh      # 자동화 스케줄 등록
+│   ├── mods_list.txt      # 모드 목록
+│   └── ...
+├── backups/               # 소중한 데이터가 보관되는 곳
+│   └── auto/              # 자동 백업 파일들
+└── README.md              # 지금 보고 계신 설명서
+```
 
-## 📂 파일 구조
-- `scripts/`: 모든 관리 스크립트.
-- `backups/`: 자동 생성된 백업 파일.
-
-## 📝 라이선스
-MIT License
+---
+**Happy Surviving!** ��‍♂️
