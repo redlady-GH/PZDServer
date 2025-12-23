@@ -1,60 +1,60 @@
 # 🧟 Project Zomboid Dedicated Server Scripts (Ubuntu)
 
-Automated setup and management scripts for a high-performance, low-maintenance Project Zomboid (Build 41) Dedicated Server on Ubuntu 24.04 LTS.
+Ubuntu 24.04 LTS 환경에서 고성능, 저관리 프로젝트 좀보이드(Build 41) 전용 서버를 위한 자동 설치 및 관리 스크립트입니다.
 
-## ✨ Features
+## ✨ 주요 기능 (Features)
 
-- **Triple-Layer Data Protection**:
-  - **Instant Save**: Saves immediately upon player damage.
-  - **Auto-Save**: 30-minute interval world saving.
-  - **Hourly Backup**: Full server backup with 7-day retention.
-- **Smart Update**: Automatically updates the server at 3 AM only if no players are online.
-- **Easy Management**: Simple scripts for announcements, logs, and manual saves.
-- **Mod Management**: CSV-based mod list (`mods_list.txt`) with automatic configuration generation.
+- **3중 데이터 보호 (Triple-Layer Data Protection)**:
+  - **즉시 저장 (Instant Save)**: 플레이어 피격 시 즉시 저장하여 데이터 손실 방지.
+  - **자동 저장 (Auto-Save)**: 30분 간격으로 월드 상태 자동 저장.
+  - **시간별 백업 (Hourly Backup)**: 전체 서버 데이터를 압축하여 백업 (7일간 보관).
+- **스마트 업데이트 (Smart Update)**: 매일 새벽 3시, 접속자가 없을 때만 자동으로 서버 업데이트 진행.
+- **간편한 관리 (Easy Management)**: 공지사항 전송, 로그 확인, 수동 저장을 위한 간편한 스크립트 제공.
+- **모드 관리 (Mod Management)**: CSV 기반의 모드 목록(`mods_list.txt`) 관리 및 설정 자동 생성.
 
-## 🚀 Quick Start
+## 🚀 빠른 시작 (Quick Start)
 
-### 1. Prerequisites
-- Ubuntu 24.04 LTS (Recommended)
-- Root access (or sudo)
+### 1. 필수 조건
+- Ubuntu 24.04 LTS (권장)
+- Root 권한 (또는 sudo 사용자)
 
-### 2. Setup
-1.  Clone this repository:
+### 2. 설정 (Setup)
+1.  저장소 복제:
     ```bash
-    git clone https://github.com/yourusername/pz-server-scripts.git z
+    git clone https://github.com/redlady-GH/PZDServer.git z
     cd z
     ```
-2.  Set your Admin Password:
+2.  관리자 비밀번호 설정:
     ```bash
     cp scripts/pz_admin_pw.txt.example scripts/pz_admin_pw.txt
     nano scripts/pz_admin_pw.txt
-    # Enter your desired admin password
+    # 원하는 관리자 비밀번호 입력
     ```
-3.  Configure Server Details:
-    Edit `scripts/setup_mods.sh` to set your Server Name, World Name, and Password.
+3.  서버 상세 설정:
+    `scripts/setup_mods.sh` 파일을 수정하여 서버 이름, 월드 이름, 비밀번호를 설정하세요.
     ```bash
     nano scripts/setup_mods.sh
     ```
-4.  Add Mods (Optional):
-    Edit `scripts/mods_list.txt` to add your mods (Name, WorkshopID, ModID).
+4.  모드 추가 (선택 사항):
+    `scripts/mods_list.txt` 파일을 수정하여 모드를 추가하세요 (이름, 워크숍ID, 모드ID).
 
-### 3. Install & Run
-Run the rebuild script to install dependencies, SteamCMD, Project Zomboid, and start the server.
+### 3. 설치 및 실행 (Install & Run)
+`rebuild.sh` 스크립트를 실행하여 의존성 패키지, SteamCMD, 프로젝트 좀보이드를 설치하고 서버를 시작합니다.
 ```bash
 sudo bash scripts/rebuild.sh --confirm
 ```
 
-## 🛠️ Operations
+## 🛠️ 운영 가이드 (Operations)
 
-- **Check Status**: `sudo systemctl status pzserver`
-- **View Logs**: `bash scripts/logs.sh`
-- **Manual Save**: `bash scripts/save.sh`
-- **Send Announcement**: `bash scripts/announce.sh "Hello World"`
-- **Attach to Console**: `sudo screen -r pzserver`
+- **상태 확인**: `sudo systemctl status pzserver`
+- **로그 확인**: `bash scripts/logs.sh`
+- **수동 저장**: `bash scripts/save.sh`
+- **공지사항 전송**: `bash scripts/announce.sh "안녕하세요"`
+- **콘솔 접속**: `sudo screen -r pzserver` (나갈 때는 `Ctrl+A`, `D`)
 
-## 📂 File Structure
-- `scripts/`: All management scripts.
-- `backups/`: Auto-generated backups.
+## 📂 파일 구조
+- `scripts/`: 모든 관리 스크립트.
+- `backups/`: 자동 생성된 백업 파일.
 
-## 📝 License
+## 📝 라이선스
 MIT License
