@@ -132,4 +132,4 @@ z/
 ```
 
 ---
-**Happy Surviving!** ��‍♂️
+**Happy Surviving!**
